@@ -1,0 +1,29 @@
+{
+  "name": "Challenge-06",
+  "version": "1.0.1",
+  "description": "Challenge Chapter 6 Binar Academy",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "Express",
+    "Postgresql",
+    "ORM",
+    "Restful API",
+    "API Documentation",
+    "Jest"
+  ],
+  "author": "Dyaz Amrullah",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.10.0",
+    "sequelize": "^6.31.0",
+    "swagger-ui-express": "^4.6.2",
+    "yaml": "^2.2.2"
+  }
+}
