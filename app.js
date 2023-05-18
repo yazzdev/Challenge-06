@@ -28,4 +28,5 @@ app.use((err, req, res, next) => {
   return res.status(500).json({ message: err.message });
 });
 
-app.listen(HTTP_PORT, () => console.log(`listening on port ${HTTP_PORT}!`))
+//app.listen(HTTP_PORT, () => console.log(`listening on port ${HTTP_PORT}!`))
+module.exports = app;
