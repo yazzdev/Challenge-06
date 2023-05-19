@@ -61,6 +61,62 @@ describe('(Suppliers) Test Store Function', () => {
   });
 });
 
+// TODO Test Index Function
+describe('(Suppliers) Test Index Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest();
+    const res = mockResponse();
+
+    await suppliers.index(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.any(Array)
+    });
+  });
+});
+
+// TODO Test Show Function
+describe('(Suppliers) Test Show Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest({}, { id: supplierId });
+    const res = mockResponse();
+
+    await suppliers.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.objectContaining({
+        id: expect.any(Number),
+        name: 'Supplier Name',
+        address: 'Supplier Address'
+      })
+    });
+  });
+
+  // Negative Testing
+  test('(Negative Testing) with message: "Supplier not found!"', async () => {
+    const req = mockRequest({}, { id: 9999 });
+    const res = mockResponse();
+
+    await suppliers.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Supplier not found!',
+      data: null
+    });
+  });
+});
+
+
 /// TODO Test Update Function
 describe('(Suppliers) Test Update Function', () => {
   // Positive Testing

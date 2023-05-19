@@ -75,8 +75,8 @@ module.exports = {
       if (!component) {
         return res.status(404).json({
           status: false,
-          message: `component_id with id ${component} is does not exist!!`,
-          data: "null"
+          message: `component_id does not exist!!`,
+          data: null
         })
       }
 
@@ -100,7 +100,7 @@ module.exports = {
 
       return res.status(201).json({
         status: true,
-        message: 'success',
+        message: 'Product added successfully',
         data: {
           product: product,
           product_components: productComponents
