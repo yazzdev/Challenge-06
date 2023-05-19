@@ -11,12 +11,12 @@ const mockResponse = () => {
 
 let supplierId;
 
+beforeAll(async () => {
+  await truncateSupplier();
+});
+
 //TODO Test Store Fungction
 describe('(Suppliers) Test Store Function', () => {
-
-  beforeAll(async () => {
-    await truncateSupplier();
-  });
 
   //Positive Testing
   test('(Positive Testing) with message: "Supplier added successfully"', async () => {
@@ -119,13 +119,10 @@ describe('(Suppliers) Test Destroy Function', () => {
 
   // Negative Testing
   test('(Negative Testing) with message: "Supplier not found!"', async () => {
-    const destroyReq = mockRequest({
-      name: 'Updated Supplier Name',
-      address: 'Updated Supplier Address'
-    }, { id: 9999 });
+    const destroyReq = mockRequest({}, { id: 9999 });
     const destroyRes = mockResponse();
 
-    await suppliers.update(destroyReq, destroyRes);
+    await suppliers.destroy(destroyReq, destroyRes);
 
     expect(destroyRes.status).toHaveBeenCalledWith(404);
     expect(destroyRes.json).toHaveBeenCalledWith({
