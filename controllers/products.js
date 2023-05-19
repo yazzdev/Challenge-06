@@ -1,7 +1,7 @@
 const { Products, product_components, Components } = require('../models');
 
 module.exports = {
-  index: async (req, res, next) => {
+  index: async (req, res) => {
     try {
       const products = await Products.findAll({
         attributes: ['id', 'name', 'quantity'],
@@ -26,11 +26,11 @@ module.exports = {
         message: 'success',
         data: products
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  show: async (req, res, next) => {
+  show: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -62,11 +62,11 @@ module.exports = {
         message: `Can't find data with id ${id}`,
         data: null
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  store: async (req, res, next) => {
+  store: async (req, res) => {
     try {
       const { name, quantity, component_id } = req.body;
 
@@ -106,11 +106,11 @@ module.exports = {
           product_components: productComponents
         }
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  update: async (req, res, next) => {
+  update: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -130,10 +130,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  destroy: async (req, res, next) => {
+  destroy: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -153,10 +153,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  updateProductComponents: async (req, res, next) => {
+  updateProductComponents: async (req, res) => {
     try {
       const { id } = req.params;
       const { product_id, component_id } = req.body;
@@ -193,7 +193,7 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   }
 }

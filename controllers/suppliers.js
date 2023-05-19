@@ -1,7 +1,7 @@
 const { Suppliers } = require('../models');
 
 module.exports = {
-  index: async (req, res, next) => {
+  index: async (req, res) => {
     try {
       const suppliers = await Suppliers.findAll({
         attributes: ['id', 'name', 'address'],
@@ -12,11 +12,11 @@ module.exports = {
         message: 'success',
         data: suppliers
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  show: async (req, res, next) => {
+  show: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -34,11 +34,11 @@ module.exports = {
         message: `Supplier not found!`,
         data: null
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  store: async (req, res, next) => {
+  store: async (req, res) => {
     try {
       const { name, address } = req.body;
 
@@ -60,11 +60,11 @@ module.exports = {
         message: 'Supplier added successfully',
         data: suppliers
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  update: async (req, res, next) => {
+  update: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -84,10 +84,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  destroy: async (req, res, next) => {
+  destroy: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -107,7 +107,7 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   }
 }

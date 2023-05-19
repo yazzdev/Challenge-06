@@ -1,7 +1,7 @@
 const { Components, Suppliers, component_suppliers } = require('../models');
 
 module.exports = {
-  index: async (req, res, next) => {
+  index: async (req, res) => {
     try {
       const components = await Components.findAll({
         attributes: ['id', 'name', 'description'],
@@ -26,11 +26,11 @@ module.exports = {
         message: 'success',
         data: components
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  show: async (req, res, next) => {
+  show: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -62,11 +62,11 @@ module.exports = {
         message: `Component not found!`,
         data: null
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  store: async (req, res, next) => {
+  store: async (req, res) => {
     try {
       const { name, description } = req.body;
 
@@ -88,11 +88,11 @@ module.exports = {
         message: 'Component added successfully',
         data: components
       });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      throw error;
     }
   },
-  update: async (req, res, next) => {
+  update: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -112,10 +112,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  destroy: async (req, res, next) => {
+  destroy: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -135,10 +135,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  addSupplierComponents: async (req, res, next) => {
+  addSupplierComponents: async (req, res) => {
     try {
       const { supplier_id, component_id } = req.body;
 
@@ -162,10 +162,10 @@ module.exports = {
         data: componentSuppliers
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  updateSupplierComponents: async (req, res, next) => {
+  updateSupplierComponents: async (req, res) => {
     try {
       const { id } = req.params;
       const { supplier_id, component_id } = req.body;
@@ -207,10 +207,10 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   },
-  destroySupplierComponents: async (req, res, next) => {
+  destroySupplierComponents: async (req, res) => {
     try {
       const { id } = req.params;
 
@@ -230,7 +230,7 @@ module.exports = {
         data: null
       });
     } catch (error) {
-      next(error);
+      throw error;
     }
   }
 }
