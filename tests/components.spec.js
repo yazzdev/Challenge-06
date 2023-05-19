@@ -1,5 +1,5 @@
-const { suppliers } = require('../controllers');
-const { truncateSupplier } = require('../utils/truncate');
+const { components } = require('../controllers');
+const { truncateComponent } = require('../utils/truncate');
 
 const mockRequest = (body = {}, params = {}) => ({ body, params });
 const mockResponse = () => {
@@ -9,125 +9,125 @@ const mockResponse = () => {
   return res;
 };
 
-let supplierId;
+let componentId;
 
 beforeAll(async () => {
-  await truncateSupplier();
+  await truncateComponent();
 });
 
 //TODO Test Store Fungction
-describe('(Suppliers) Test Store Function', () => {
+describe('(Components) Test Store Function', () => {
 
   //Positive Testing
-  test('(Positive Testing) with message: "Supplier added successfully"', async () => {
+  test('(Positive Testing) with message: "Component added successfully"', async () => {
     const req = mockRequest({
-      name: 'Supplier Name',
-      address: 'Supplier Address'
+      name: 'Component Name',
+      description: 'Component Address'
     });
     const res = mockResponse();
 
-    await suppliers.store(req, res);
+    await components.store(req, res);
 
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({
       status: true,
-      message: 'Supplier added successfully',
+      message: 'Component added successfully',
       data: expect.objectContaining({
         id: expect.any(Number),
-        name: 'Supplier Name',
-        address: 'Supplier Address'
+        name: 'Component Name',
+        description: 'Component Address'
       })
     });
 
-    supplierId = res.json.mock.calls[0][0].data.id;
+    componentId = res.json.mock.calls[0][0].data.id;
   });
 
   //Negative Testing
-  test('(Negative Testing) with message: "Supplier Name and Address is required!"', async () => {
+  test('(Negative Testing) with message: "Component Name and Description is required!"', async () => {
     const req = mockRequest({
       name: '',
-      address: ''
+      description: ''
     });
     const res = mockResponse();
 
-    await suppliers.store(req, res);
+    await components.store(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({
       status: false,
-      message: 'Supplier Name and Address is required!',
+      message: 'Component Name and Description is required!',
       data: null
     });
   });
 });
 
 /// TODO Test Update Function
-describe('(Suppliers) Test Update Function', () => {
+describe('(Components) Test Update Function', () => {
   // Positive Testing
-  test('(Positive Testing) with message: "Supplier update successfully"', async () => {
+  test('(Positive Testing) with message: "Component updated successfully"', async () => {
     const updateReq = mockRequest({
-      name: 'Updated Supplier Name',
-      address: 'Updated Supplier Address'
-    }, { id: supplierId });
+      name: 'Updated Component Name',
+      description: 'Updated Component Address'
+    }, { id: componentId });
     const updateRes = mockResponse();
 
-    await suppliers.update(updateReq, updateRes);
+    await components.update(updateReq, updateRes);
 
     expect(updateRes.status).toHaveBeenCalledWith(200);
     expect(updateRes.json).toHaveBeenCalledWith({
       status: true,
-      message: 'Supplier update successfully',
+      message: 'Component updated successfully',
       data: null
     });
   });
 
   // Negative Testing
-  test('(Negative Testing) with message: "Supplier not found!"', async () => {
+  test('(Negative Testing) with message: "Component not found!"', async () => {
     const updateReq = mockRequest({
-      name: 'Updated Supplier Name',
-      address: 'Updated Supplier Address'
+      name: 'Updated Component Name',
+      description: 'Updated Component Address'
     }, { id: 9999 });
     const updateRes = mockResponse();
 
-    await suppliers.update(updateReq, updateRes);
+    await components.update(updateReq, updateRes);
 
     expect(updateRes.status).toHaveBeenCalledWith(404);
     expect(updateRes.json).toHaveBeenCalledWith({
       status: false,
-      message: 'Supplier not found!',
+      message: 'Component not found!',
       data: null
     });
   });
 });
 
 // TODO Test Destroy Function
-describe('(Suppliers) Test Destroy Function', () => {
+describe('(Components) Test Destroy Function', () => {
   //Positive Testing
-  test('(Positive Testing) Supplier deleted successfully', async () => {
-    const destroyReq = mockRequest({}, { id: supplierId });
+  test('(Positive Testing) Component deleted successfully', async () => {
+    const destroyReq = mockRequest({}, { id: componentId });
     const destroyRes = mockResponse();
 
-    await suppliers.destroy(destroyReq, destroyRes);
+    await components.destroy(destroyReq, destroyRes);
 
     expect(destroyRes.status).toHaveBeenCalledWith(200);
     expect(destroyRes.json).toHaveBeenCalledWith({
       status: true,
-      message: 'Supplier deleted successfully',
+      message: 'Component deleted successfully',
       data: null
     });
   });
 
   // Negative Testing
-  test('(Negative Testing) with message: "Supplier not found!"', async () => {
+  test('(Negative Testing) with message: "Component not found!"', async () => {
     const destroyReq = mockRequest({}, { id: 9999 });
     const destroyRes = mockResponse();
 
-    await suppliers.destroy(destroyReq, destroyRes);
+    await components.destroy(destroyReq, destroyRes);
 
     expect(destroyRes.status).toHaveBeenCalledWith(404);
     expect(destroyRes.json).toHaveBeenCalledWith({
       status: false,
-      message: 'Supplier not found!',
+      message: 'Component not found!',
       data: null
     });
   });
