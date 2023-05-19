@@ -59,7 +59,7 @@ module.exports = {
         data: products
       }) : res.status(404).json({
         status: false,
-        message: `failed => Can't find data with id ${id}`,
+        message: `Can't find data with id ${id}`,
         data: null
       });
     } catch (err) {

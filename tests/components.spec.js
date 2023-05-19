@@ -22,7 +22,7 @@ describe('(Components) Test Store Function', () => {
   test('(Positive Testing) with message: "Component added successfully"', async () => {
     const req = mockRequest({
       name: 'Component Name',
-      description: 'Component Address'
+      description: 'Component description'
     });
     const res = mockResponse();
 
@@ -35,7 +35,7 @@ describe('(Components) Test Store Function', () => {
       data: expect.objectContaining({
         id: expect.any(Number),
         name: 'Component Name',
-        description: 'Component Address'
+        description: 'Component description'
       })
     });
 
@@ -61,13 +61,68 @@ describe('(Components) Test Store Function', () => {
   });
 });
 
+// TODO Test Index Function
+describe('(Components) Test Index Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest();
+    const res = mockResponse();
+
+    await components.index(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.any(Array)
+    });
+  });
+});
+
+// TODO Test Show Function
+describe('(Components) Test Show Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest({}, { id: componentId });
+    const res = mockResponse();
+
+    await components.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.objectContaining({
+        id: expect.any(Number),
+        name: 'Component Name',
+        description: 'Component description'
+      })
+    });
+  });
+
+  // Negative Testing
+  test('(Negative Testing) with message: "Component not found!"', async () => {
+    const req = mockRequest({}, { id: 9999 });
+    const res = mockResponse();
+
+    await components.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Component not found!',
+      data: null
+    });
+  });
+});
+
 /// TODO Test Update Function
 describe('(Components) Test Update Function', () => {
   // Positive Testing
   test('(Positive Testing) with message: "Component updated successfully"', async () => {
     const updateReq = mockRequest({
       name: 'Updated Component Name',
-      description: 'Updated Component Address'
+      description: 'Updated Component'
     }, { id: componentId });
     const updateRes = mockResponse();
 
@@ -85,7 +140,7 @@ describe('(Components) Test Update Function', () => {
   test('(Negative Testing) with message: "Component not found!"', async () => {
     const updateReq = mockRequest({
       name: 'Updated Component Name',
-      description: 'Updated Component Address'
+      description: 'Updated Component'
     }, { id: 9999 });
     const updateRes = mockResponse();
 
