@@ -20,6 +20,9 @@ jobs:
       - name: Install packages
         run: npm install
 
+      - name: Install Seeders
+        run: sequelize db:seed:all
+
       - name: Install Railway
         run: npm i -g @railway/cli
 
