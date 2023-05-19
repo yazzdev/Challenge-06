@@ -1,5 +1,5 @@
 const { products } = require('../controllers');
-const { Components, Products } = require('../models');
+const { Components, product_components } = require('../models');
 const { truncateProduct, truncateProductComponents } = require('../utils/truncate');
 
 const mockRequest = (body = {}, params = {}) => ({ body, params });
@@ -25,9 +25,9 @@ beforeEach(async () => {
   });
 });
 
-
-// Positive Testing
+//TODO Test Store Function
 describe('(Products) Test Store Function', () => {
+  // Positive Testing
   test('(Positive Testing) with valid data', async () => {
     const req = mockRequest({
       name: 'Product Name',
@@ -94,7 +94,63 @@ describe('(Products) Test Store Function', () => {
   });
 });
 
-// Update Function
+// TODO Test Index Function
+describe('(Products) Test Index Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest();
+    const res = mockResponse();
+
+    await products.index(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.any(Array)
+    });
+  });
+});
+
+// TODO Test Show Function
+describe('(Products) Test Show Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with message: "success"', async () => {
+    const req = mockRequest({}, { id: productID });
+    const res = mockResponse();
+
+    await products.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'success',
+      data: expect.objectContaining({
+        id: expect.any(Number),
+        name: 'Product Name',
+        quantity: 12,
+        product_components: expect.any(Array),
+      }),
+    });
+  });
+
+  // Negative Testing
+  test('(Negative Testing) with message: "Product not found!"', async () => {
+    const req = mockRequest({}, { id: 9999 });
+    const res = mockResponse();
+
+    await products.show(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: "Can't find data with id 9999",
+      data: null
+    });
+  });
+});
+
+//TODO Test Update Function
 describe('(Products) Test Update Function', () => {
   test('(Positive Testing) with valid data', async () => {
     const req = mockRequest({
@@ -130,3 +186,61 @@ describe('(Products) Test Update Function', () => {
     });
   });
 });
+
+// TODO Test Destroy Function
+describe('(Products) Test Destroy Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with valid id', async () => {
+    const req = mockRequest({}, { id: productID });
+    const res = mockResponse();
+
+    await products.destroy(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'Product deleted successfully',
+      data: null
+    });
+  });
+
+  // Negative Testing
+  test('(Negative Testing) with invalid id', async () => {
+    const req = mockRequest({}, { id: 9999 });
+    const res = mockResponse();
+
+    await products.destroy(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Product not found!',
+      data: null
+    });
+  });
+});
+
+// TODO Test updateProductComponents Function
+describe('(Products) Test updateProductComponents Function', () => {
+  // Negative Testing
+  test('(Negative Testing) with invalid product-component id', async () => {
+    const req = mockRequest(
+      {
+        product_id: productID,
+        component_id: component.id
+      },
+      { id: 9999 }
+    );
+    const res = mockResponse();
+
+    await products.updateProductComponents(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Product-Component not found!',
+      data: null
+    });
+  });
+});
+

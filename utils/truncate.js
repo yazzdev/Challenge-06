@@ -28,5 +28,12 @@ module.exports = {
     } catch (error) {
       console.error('Error truncating product_components table:', error);
     }
+  },
+  truncateComponentSuppliers: async () => {
+    try {
+      await component_suppliers.destroy({ truncate: { cascade: true } });
+    } catch (error) {
+      console.error('Error truncating component_suppliers table:', error);
+    }
   }
 };
