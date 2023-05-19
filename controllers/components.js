@@ -144,21 +144,12 @@ module.exports = {
 
       //TODO validasi data dari tabel lain, apabila tidak ada maka response error
       const supplier = await Suppliers.findOne({ where: { id: supplier_id } });
-
-      if (!supplier) {
-        return res.status(404).json({
-          status: false,
-          message: `Supplier not found!`,
-          data: null
-        });
-      }
-
       const component = await Components.findOne({ where: { id: component_id } });
 
-      if (!component) {
+      if (!supplier || !component) {
         return res.status(404).json({
           status: false,
-          message: `Component not found!`,
+          message: `Supplier or Component not found!`,
           data: null
         });
       }

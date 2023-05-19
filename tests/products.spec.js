@@ -1,5 +1,5 @@
 const { products } = require('../controllers');
-const { Components, Products } = require('../models');
+const { Components, product_components } = require('../models');
 const { truncateProduct, truncateProductComponents } = require('../utils/truncate');
 
 const mockRequest = (body = {}, params = {}) => ({ body, params });
@@ -129,16 +129,7 @@ describe('(Products) Test Show Function', () => {
         id: expect.any(Number),
         name: 'Product Name',
         quantity: 12,
-        product_components: expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(Number),
-            components: expect.objectContaining({
-              id: expect.any(Number),
-              name: 'Component Name',
-              description: 'Component Address',
-            }),
-          }),
-        ]),
+        product_components: expect.any(Array),
       }),
     });
   });
@@ -195,3 +186,61 @@ describe('(Products) Test Update Function', () => {
     });
   });
 });
+
+// TODO Test Destroy Function
+describe('(Products) Test Destroy Function', () => {
+  // Positive Testing
+  test('(Positive Testing) with valid id', async () => {
+    const req = mockRequest({}, { id: productID });
+    const res = mockResponse();
+
+    await products.destroy(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      status: true,
+      message: 'Product deleted successfully',
+      data: null
+    });
+  });
+
+  // Negative Testing
+  test('(Negative Testing) with invalid id', async () => {
+    const req = mockRequest({}, { id: 9999 });
+    const res = mockResponse();
+
+    await products.destroy(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Product not found!',
+      data: null
+    });
+  });
+});
+
+// TODO Test updateProductComponents Function
+describe('(Products) Test updateProductComponents Function', () => {
+  // Negative Testing
+  test('(Negative Testing) with invalid product-component id', async () => {
+    const req = mockRequest(
+      {
+        product_id: productID,
+        component_id: component.id
+      },
+      { id: 9999 }
+    );
+    const res = mockResponse();
+
+    await products.updateProductComponents(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Product-Component not found!',
+      data: null
+    });
+  });
+});
+

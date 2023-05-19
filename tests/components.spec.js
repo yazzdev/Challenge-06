@@ -187,3 +187,42 @@ describe('(Components) Test Destroy Function', () => {
     });
   });
 });
+
+// TODO Test addSupplierComponents Function
+describe('(Components) Test addSupplierComponents Function', () => {
+  // Negative Testing
+  test('(Negative Testing) with message: "Supplier or Component not found!"', async () => {
+    const req = mockRequest({
+      supplier_id: 9999,
+      component_id: componentId
+    });
+    const res = mockResponse();
+
+    await components.addSupplierComponents(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(404);
+    expect(res.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Supplier or Component not found!',
+      data: null
+    });
+  });
+});
+
+// TODO Test DestroySupplierComponents Function
+describe('(Components) Test DestroySupplierComponents Function', () => {
+  // Negative Testing
+  test('(Negative Testing) with message: "Component-Supplier not found!"', async () => {
+    const destroyReq = mockRequest({}, { id: 9999 });
+    const destroyRes = mockResponse();
+
+    await components.destroySupplierComponents(destroyReq, destroyRes);
+
+    expect(destroyRes.status).toHaveBeenCalledWith(404);
+    expect(destroyRes.json).toHaveBeenCalledWith({
+      status: false,
+      message: 'Component-Supplier not found!',
+      data: null
+    });
+  });
+});

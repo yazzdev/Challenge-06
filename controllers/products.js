@@ -175,23 +175,14 @@ module.exports = {
       const product = await Products.findOne({
         where: { id: product_id }
       });
-
-      if (!product) {
-        return res.status(400).json({
-          status: false,
-          message: `Product not found!`,
-          data: null
-        });
-      }
-
       const component = await Components.findOne({
         where: { id: component_id }
       });
 
-      if (!component) {
-        return res.status(400).json({
+      if (!product || !component) {
+        return res.status(404).json({
           status: false,
-          message: `Component not found!`,
+          message: `Product or Component data not found!`,
           data: null
         });
       }
